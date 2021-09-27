@@ -7,6 +7,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping(path = "/candidateJob")
 public class CandidateJobController {
@@ -21,6 +23,18 @@ public class CandidateJobController {
         CandidateJob candidateJob = candidateJobRepository.findCandidateJobByCandidateId(id);
         if (candidateJob != null) {
             response = ResponseEntity.ok().body(candidateJob);
+        }
+
+        return response;
+    }
+
+    @GetMapping(path = {"/applications/{id}"})
+    public ResponseEntity getListById(@PathVariable Integer id) {
+
+        ResponseEntity response = ResponseEntity.notFound().build();
+        List<CandidateJob> applications = candidateJobRepository.findCandidateJobsByCandidateId(id);
+        if (applications != null) {
+            response = ResponseEntity.ok().body(applications);
         }
 
         return response;
